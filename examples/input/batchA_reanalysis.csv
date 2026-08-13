@@ -1,0 +1,5 @@
+sample_id,species,treatment_mM_NaCl,final_height_cm,germination_days,measured_by,measurement_date
+S-01,Arabidopsis thaliana,50,12.6,4,K. Chen,2023-03-15
+S-02,Arabidopsis thaliana,0,15.1,3,K. Chen,2023-03-15
+S-03,Arabidopsis thaliana,100,8.0,7,K. Chen,2023-03-15
+S-04,Arabidopsis thaliana,150,4.9,9,K. Chen,2023-03-15

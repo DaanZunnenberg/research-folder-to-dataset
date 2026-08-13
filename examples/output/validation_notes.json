@@ -1,0 +1,23 @@
+{
+  "validation_issues": [
+    {
+      "level": "warning",
+      "record": "S-01",
+      "message": "required field 'final_height_cm' is missing"
+    },
+    {
+      "level": "warning",
+      "record": "S-03",
+      "message": "required field 'final_height_cm' is missing"
+    },
+    {
+      "level": "warning",
+      "record": "S-06",
+      "message": "required field 'source_batch' is missing"
+    }
+  ],
+  "xlsx_generated": false,
+  "xlsx_note": "openpyxl not installed; skipped dataset.xlsx (dataset.csv/json are authoritative)",
+  "record_count": 6,
+  "field_count": 9
+}

@@ -1,0 +1,883 @@
+{
+  "schema": [
+    {
+      "name": "sample_id",
+      "description": "Unique sample identifier used consistently across all source documents",
+      "type": "string",
+      "required": true,
+      "examples": [
+        "S-01",
+        "S-05"
+      ]
+    },
+    {
+      "name": "species",
+      "description": "Organism studied",
+      "type": "string",
+      "required": true,
+      "examples": [
+        "Arabidopsis thaliana"
+      ]
+    },
+    {
+      "name": "treatment_mM_NaCl",
+      "description": "Salinity treatment concentration, normalized to millimolar NaCl (0 = control)",
+      "type": "number",
+      "required": true,
+      "examples": [
+        0,
+        50,
+        100,
+        150,
+        200
+      ]
+    },
+    {
+      "name": "final_height_cm",
+      "description": "Final measured plant height, normalized to centimeters",
+      "type": "number",
+      "required": true,
+      "examples": [
+        12.4,
+        15.1
+      ]
+    },
+    {
+      "name": "germination_days",
+      "description": "Days from planting to germination",
+      "type": "number",
+      "required": false,
+      "examples": [
+        3,
+        4,
+        9
+      ]
+    },
+    {
+      "name": "measurement_date",
+      "description": "Date the measurement was recorded, normalized to ISO 8601",
+      "type": "date",
+      "required": false,
+      "examples": [
+        "2023-03-15"
+      ]
+    },
+    {
+      "name": "measured_by",
+      "description": "Person who took/recorded the measurement",
+      "type": "string",
+      "required": false,
+      "examples": [
+        "K. Chen",
+        "M. Diallo"
+      ]
+    },
+    {
+      "name": "source_batch",
+      "description": "Which experimental batch the sample belongs to",
+      "type": "categorical",
+      "required": true,
+      "examples": [
+        "Batch A",
+        "Batch B"
+      ]
+    },
+    {
+      "name": "notes",
+      "description": "Free-text observations relevant to interpreting the record",
+      "type": "string",
+      "required": false,
+      "examples": [
+        "wilted by day 5, likely non-viable outlier"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "_record_id": "S-01",
+      "_duplicate_of": null,
+      "_duplicate_confidence": null,
+      "sample_id": {
+        "value": "S-01",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "## Sample S-01",
+            "quote": "## Sample S-01"
+          }
+        ]
+      },
+      "species": {
+        "value": "Arabidopsis thaliana",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "Sample S-01 section",
+            "quote": "Species: *Arabidopsis thaliana*"
+          }
+        ]
+      },
+      "treatment_mM_NaCl": {
+        "value": 50,
+        "value_raw": "50 mM NaCl",
+        "status": "normalized",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "Sample S-01 section",
+            "quote": "Treatment: 50 mM NaCl"
+          }
+        ]
+      },
+      "final_height_cm": {
+        "value": null,
+        "value_raw": null,
+        "status": "missing",
+        "confidence": null,
+        "provenance": [],
+        "conflict": {
+          "description": "Notebook, reanalysis, and summary report give three different final heights for S-01 that do not agree closely enough to average or pick one with confidence. Not auto-resolved.",
+          "values": [
+            {
+              "value": 12.4,
+              "unit": "cm",
+              "source": "experiment_notes_batchA.md",
+              "location": "Sample S-01 section",
+              "quote": "Final height: 12.4 cm"
+            },
+            {
+              "value": 12.6,
+              "unit": "cm",
+              "source": "batchA_reanalysis.csv",
+              "location": "row 2 (S-01)",
+              "quote": "S-01,Arabidopsis thaliana,50,12.6,4,K. Chen,2023-03-15"
+            },
+            {
+              "value": 12.5,
+              "unit": "cm",
+              "source": "summary_report_batchA.docx",
+              "location": "paragraph re: Sample S-01",
+              "quote": "reached a final height of approximately 12.5 cm"
+            }
+          ]
+        }
+      },
+      "germination_days": {
+        "value": 4,
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "Sample S-01 section",
+            "quote": "Days to germination: 4"
+          },
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 2 (S-01)",
+            "quote": "germination_days=4"
+          }
+        ]
+      },
+      "measurement_date": {
+        "value": "2023-03-15",
+        "value_raw": "2023-03-15",
+        "status": "stated",
+        "confidence": 0.7,
+        "provenance": [
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 2 (S-01)",
+            "quote": "measurement_date=2023-03-15"
+          }
+        ],
+        "notes_inline": "This is the reanalysis measurement date only; the original notebook entry (2023-03-03) records initial observation, not the disputed height reading -- see notes."
+      },
+      "measured_by": {
+        "value": "K. Chen",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 0.6,
+        "provenance": [
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 2 (S-01)",
+            "quote": "measured_by=K. Chen"
+          }
+        ],
+        "notes_inline": "Attributed only to the reanalysis measurement; the original notebook reading was recorded by J. Alvarez (see notebook header) but is not attached to a specific numeric value with certainty."
+      },
+      "source_batch": {
+        "value": "Batch A",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "document title",
+            "quote": "Lab Notebook — Batch A growth trial"
+          }
+        ]
+      },
+      "notes": {
+        "value": "Height measurement disputed across sources (12.4 / 12.5 / 12.6 cm); document notes equipment was recalibrated between notebook and reanalysis readings, which may partly explain the discrepancy.",
+        "value_raw": null,
+        "status": "inferred",
+        "confidence": 0.5,
+        "provenance": [
+          {
+            "file": "summary_report_batchA.docx",
+            "location": "closing paragraph",
+            "quote": "measurement equipment was recalibrated between the initial notebook readings and the K. Chen reanalysis; minor discrepancies (less than 0.3 cm) in height measurements between sources are expected and within instrument tolerance"
+          }
+        ]
+      }
+    },
+    {
+      "_record_id": "S-02",
+      "_duplicate_of": null,
+      "_duplicate_confidence": null,
+      "sample_id": {
+        "value": "S-02",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "## Sample S-02",
+            "quote": "## Sample S-02"
+          }
+        ]
+      },
+      "species": {
+        "value": "Arabidopsis thaliana",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "Sample S-02 section",
+            "quote": "Species: *Arabidopsis thaliana*"
+          }
+        ]
+      },
+      "treatment_mM_NaCl": {
+        "value": 0,
+        "value_raw": "control (0 mM NaCl)",
+        "status": "normalized",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "Sample S-02 section",
+            "quote": "Treatment: control (0 mM NaCl)"
+          }
+        ]
+      },
+      "final_height_cm": {
+        "value": 15.1,
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "Sample S-02 section",
+            "quote": "Final height: 15.1 cm"
+          },
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 3 (S-02)",
+            "quote": "final_height_cm=15.1"
+          },
+          {
+            "file": "summary_report_batchA.docx",
+            "location": "paragraph re: Sample S-02",
+            "quote": "showed the strongest growth at 15.1 cm final height"
+          }
+        ]
+      },
+      "germination_days": {
+        "value": 3,
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "Sample S-02 section",
+            "quote": "Days to germination: 3"
+          },
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 3 (S-02)",
+            "quote": "germination_days=3"
+          }
+        ]
+      },
+      "measurement_date": {
+        "value": "2023-03-15",
+        "value_raw": "2023-03-15",
+        "status": "stated",
+        "confidence": 0.7,
+        "provenance": [
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 3 (S-02)",
+            "quote": "measurement_date=2023-03-15"
+          }
+        ]
+      },
+      "measured_by": {
+        "value": "K. Chen",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 0.6,
+        "provenance": [
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 3 (S-02)",
+            "quote": "measured_by=K. Chen"
+          }
+        ]
+      },
+      "source_batch": {
+        "value": "Batch A",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "document title",
+            "quote": "Lab Notebook — Batch A growth trial"
+          }
+        ]
+      },
+      "notes": {
+        "value": null,
+        "value_raw": null,
+        "status": "missing",
+        "confidence": null,
+        "provenance": []
+      }
+    },
+    {
+      "_record_id": "S-03",
+      "_duplicate_of": null,
+      "_duplicate_confidence": null,
+      "sample_id": {
+        "value": "S-03",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "## Sample S-03",
+            "quote": "## Sample S-03"
+          }
+        ]
+      },
+      "species": {
+        "value": "Arabidopsis thaliana",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "Sample S-03 section",
+            "quote": "Species: *Arabidopsis thaliana*"
+          }
+        ]
+      },
+      "treatment_mM_NaCl": {
+        "value": 100,
+        "value_raw": "100 mM NaCl",
+        "status": "normalized",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "Sample S-03 section",
+            "quote": "Treatment: 100 mM NaCl"
+          }
+        ]
+      },
+      "final_height_cm": {
+        "value": null,
+        "value_raw": null,
+        "status": "missing",
+        "confidence": null,
+        "provenance": [],
+        "conflict": {
+          "description": "Notebook and summary report agree at 8.2 cm; reanalysis CSV reports 8.0 cm. Two-against-one, but not resolved automatically -- reanalysis may reflect a real remeasurement, not necessarily an error.",
+          "values": [
+            {
+              "value": 8.2,
+              "unit": "cm",
+              "source": "experiment_notes_batchA.md",
+              "location": "Sample S-03 section",
+              "quote": "Final height: 8.2 cm"
+            },
+            {
+              "value": 8.0,
+              "unit": "cm",
+              "source": "batchA_reanalysis.csv",
+              "location": "row 4 (S-03)",
+              "quote": "final_height_cm=8.0"
+            },
+            {
+              "value": 8.2,
+              "unit": "cm",
+              "source": "summary_report_batchA.docx",
+              "location": "paragraph re: Sample S-03",
+              "quote": "reaching only 8.2 cm"
+            }
+          ]
+        }
+      },
+      "germination_days": {
+        "value": null,
+        "value_raw": null,
+        "status": "missing",
+        "confidence": null,
+        "provenance": [],
+        "conflict": {
+          "description": "Notebook and summary report agree germination occurred on day 6; reanalysis CSV reports 7 days.",
+          "values": [
+            {
+              "value": 6,
+              "source": "experiment_notes_batchA.md",
+              "location": "Sample S-03 section",
+              "quote": "Days to germination: 6"
+            },
+            {
+              "value": 7,
+              "source": "batchA_reanalysis.csv",
+              "location": "row 4 (S-03)",
+              "quote": "germination_days=7"
+            },
+            {
+              "value": 6,
+              "source": "summary_report_batchA.docx",
+              "location": "paragraph re: Sample S-03",
+              "quote": "germination delayed to day 6"
+            }
+          ]
+        }
+      },
+      "measurement_date": {
+        "value": "2023-03-15",
+        "value_raw": "2023-03-15",
+        "status": "stated",
+        "confidence": 0.7,
+        "provenance": [
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 4 (S-03)",
+            "quote": "measurement_date=2023-03-15"
+          }
+        ]
+      },
+      "measured_by": {
+        "value": "K. Chen",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 0.6,
+        "provenance": [
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 4 (S-03)",
+            "quote": "measured_by=K. Chen"
+          }
+        ]
+      },
+      "source_batch": {
+        "value": "Batch A",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "document title",
+            "quote": "Lab Notebook — Batch A growth trial"
+          }
+        ]
+      },
+      "notes": {
+        "value": "mild leaf curling observed on day 10",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 0.9,
+        "provenance": [
+          {
+            "file": "experiment_notes_batchA.md",
+            "location": "Sample S-03 section",
+            "quote": "Notes: mild leaf curling observed on day 10"
+          }
+        ]
+      }
+    },
+    {
+      "_record_id": "S-04",
+      "_duplicate_of": null,
+      "_duplicate_confidence": null,
+      "sample_id": {
+        "value": "S-04",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 5 (S-04)",
+            "quote": "sample_id=S-04"
+          }
+        ]
+      },
+      "species": {
+        "value": "Arabidopsis thaliana",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 5 (S-04)",
+            "quote": "species=Arabidopsis thaliana"
+          }
+        ]
+      },
+      "treatment_mM_NaCl": {
+        "value": 150,
+        "value_raw": "150",
+        "status": "stated",
+        "confidence": 0.9,
+        "provenance": [
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 5 (S-04)",
+            "quote": "treatment_mM_NaCl=150"
+          }
+        ]
+      },
+      "final_height_cm": {
+        "value": 4.9,
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 0.9,
+        "provenance": [
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 5 (S-04)",
+            "quote": "final_height_cm=4.9"
+          }
+        ]
+      },
+      "germination_days": {
+        "value": 9,
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 0.9,
+        "provenance": [
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 5 (S-04)",
+            "quote": "germination_days=9"
+          }
+        ]
+      },
+      "measurement_date": {
+        "value": "2023-03-15",
+        "value_raw": "2023-03-15",
+        "status": "stated",
+        "confidence": 0.9,
+        "provenance": [
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 5 (S-04)",
+            "quote": "measurement_date=2023-03-15"
+          }
+        ]
+      },
+      "measured_by": {
+        "value": "K. Chen",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 0.9,
+        "provenance": [
+          {
+            "file": "batchA_reanalysis.csv",
+            "location": "row 5 (S-04)",
+            "quote": "measured_by=K. Chen"
+          }
+        ]
+      },
+      "source_batch": {
+        "value": "Batch A",
+        "value_raw": null,
+        "status": "inferred",
+        "confidence": 0.7,
+        "provenance": [
+          {
+            "file": "summary_report_batchA.docx",
+            "location": "closing paragraph",
+            "quote": "A fourth sample, S-04, was treated at 150 mM NaCl in a follow-up run and is reported separately in the reanalysis spreadsheet."
+          }
+        ]
+      },
+      "notes": {
+        "value": "Only reported in the reanalysis spreadsheet and referenced (not independently measured) in the summary report; no original notebook entry exists for this sample.",
+        "value_raw": null,
+        "status": "inferred",
+        "confidence": 0.6,
+        "provenance": [
+          {
+            "file": "summary_report_batchA.docx",
+            "location": "closing paragraph",
+            "quote": "reported separately in the reanalysis spreadsheet"
+          }
+        ]
+      }
+    },
+    {
+      "_record_id": "S-05",
+      "_duplicate_of": null,
+      "_duplicate_confidence": null,
+      "sample_id": {
+        "value": "S-05",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "field_notes_batchB.pdf",
+            "location": "page 1",
+            "quote": "Sample S-05: species Arabidopsis thaliana"
+          }
+        ]
+      },
+      "species": {
+        "value": "Arabidopsis thaliana",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "field_notes_batchB.pdf",
+            "location": "page 1",
+            "quote": "Sample S-05: species Arabidopsis thaliana"
+          }
+        ]
+      },
+      "treatment_mM_NaCl": {
+        "value": 50,
+        "value_raw": "50 mM NaCl",
+        "status": "normalized",
+        "confidence": 0.9,
+        "provenance": [
+          {
+            "file": "field_notes_batchB.pdf",
+            "location": "page 1",
+            "quote": "Treatment: 50 mM NaCl"
+          }
+        ]
+      },
+      "final_height_cm": {
+        "value": 12.45,
+        "value_raw": "4.9 in",
+        "status": "normalized",
+        "confidence": 0.75,
+        "provenance": [
+          {
+            "file": "field_notes_batchB.pdf",
+            "location": "page 1",
+            "quote": "Final height: 4.9 in"
+          }
+        ],
+        "notes_inline": "Converted from inches using 1 in = 2.54 cm (4.9 * 2.54 = 12.446, rounded to 12.45). This is the only source reporting height in inches; all other samples are reported directly in cm or mm."
+      },
+      "germination_days": {
+        "value": 5,
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 0.9,
+        "provenance": [
+          {
+            "file": "field_notes_batchB.pdf",
+            "location": "page 1",
+            "quote": "Germination: 5 days"
+          }
+        ]
+      },
+      "measurement_date": {
+        "value": null,
+        "value_raw": "04/03/2023",
+        "status": "missing",
+        "confidence": null,
+        "provenance": [
+          {
+            "file": "field_notes_batchB.pdf",
+            "location": "page 1",
+            "quote": "Date: 04/03/2023"
+          }
+        ],
+        "notes_inline": "Ambiguous numeric date format (could be 2023-04-03 or 2023-03-04); no other source corroborates a specific date for this sample, so left as missing rather than guessed."
+      },
+      "measured_by": {
+        "value": "M. Diallo",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "field_notes_batchB.pdf",
+            "location": "page 1",
+            "quote": "Recorded by: M. Diallo"
+          }
+        ]
+      },
+      "source_batch": {
+        "value": "Batch B",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "field_notes_batchB.pdf",
+            "location": "page 1",
+            "quote": "Batch B Field Notes - Greenhouse 2"
+          }
+        ]
+      },
+      "notes": {
+        "value": null,
+        "value_raw": null,
+        "status": "missing",
+        "confidence": null,
+        "provenance": []
+      }
+    },
+    {
+      "_record_id": "S-06",
+      "_duplicate_of": null,
+      "_duplicate_confidence": null,
+      "sample_id": {
+        "value": "S-06",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "master_sample_list.xlsx",
+            "location": "sheet: master_list, row 5",
+            "quote": "A5=S-06"
+          }
+        ]
+      },
+      "species": {
+        "value": "Arabidopsis thaliana",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "master_sample_list.xlsx",
+            "location": "sheet: master_list, row 5",
+            "quote": "B5=Arabidopsis thaliana"
+          }
+        ]
+      },
+      "treatment_mM_NaCl": {
+        "value": 200,
+        "value_raw": "200mM NaCl",
+        "status": "normalized",
+        "confidence": 0.9,
+        "provenance": [
+          {
+            "file": "master_sample_list.xlsx",
+            "location": "sheet: master_list, row 5",
+            "quote": "C5=200mM NaCl"
+          }
+        ]
+      },
+      "final_height_cm": {
+        "value": 1.1,
+        "value_raw": "11 (final_height_mm column)",
+        "status": "normalized",
+        "confidence": 0.8,
+        "provenance": [
+          {
+            "file": "master_sample_list.xlsx",
+            "location": "sheet: master_list, row 5, column final_height_mm",
+            "quote": "D5=11"
+          }
+        ],
+        "notes_inline": "Source column is explicitly labeled final_height_mm; converted mm to cm (11 mm = 1.1 cm) to match the dataset's cm convention used by all other sources."
+      },
+      "germination_days": {
+        "value": 12,
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 0.9,
+        "provenance": [
+          {
+            "file": "master_sample_list.xlsx",
+            "location": "sheet: master_list, row 5",
+            "quote": "E5=12"
+          }
+        ]
+      },
+      "measurement_date": {
+        "value": null,
+        "value_raw": null,
+        "status": "missing",
+        "confidence": null,
+        "provenance": []
+      },
+      "measured_by": {
+        "value": null,
+        "value_raw": null,
+        "status": "missing",
+        "confidence": null,
+        "provenance": []
+      },
+      "source_batch": {
+        "value": null,
+        "value_raw": null,
+        "status": "missing",
+        "confidence": null,
+        "provenance": [],
+        "notes_inline": "master_sample_list.xlsx does not indicate which batch S-06 belongs to; not present in either Batch A notebook or Batch B field notes, so left unassigned rather than guessed."
+      },
+      "notes": {
+        "value": "wilted by day 5, likely non-viable outlier",
+        "value_raw": null,
+        "status": "stated",
+        "confidence": 1.0,
+        "provenance": [
+          {
+            "file": "master_sample_list.xlsx",
+            "location": "sheet: master_list, row 5, column notes",
+            "quote": "F5=wilted by day 5, likely non-viable outlier"
+          }
+        ],
+        "notes_inline": "OUTLIER FLAG: at 200 mM NaCl, S-06 shows a height (1.1 cm) roughly 4-7x smaller than any other treated sample and the highest germination delay (12 days) in the dataset. Source explicitly calls this sample potentially non-viable. Retained in the dataset (not discarded) but should likely be excluded from any dose-response summary statistic without separate justification."
+      }
+    }
+  ]
+}
