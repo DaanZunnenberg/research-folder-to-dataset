@@ -1,4 +1,4 @@
-# research-folder-to-dataset
+# Alchemist
 
 A Claude Code skill that turns a messy folder of research/analyst files (PDFs, DOCX,
 XLSX/CSV, Markdown, TXT, images) into a clean, structured, auditable dataset — with an
@@ -7,10 +7,10 @@ report.
 
 ## Install
 
-Copy the `research-folder-to-dataset/` directory into your Claude Code skills directory:
+Copy the `alchemist/` directory into your Claude Code skills directory:
 
 ```bash
-cp -r research-folder-to-dataset ~/.claude/skills/
+cp -r alchemist ~/.claude/skills/
 ```
 
 (Or into a project-local `.claude/skills/` directory if you want it scoped to one repo.)
@@ -29,7 +29,7 @@ Point Claude Code at a folder and ask:
 
 or more specifically:
 
-> Use research-folder-to-dataset on `./my_research_folder`, output to `./dataset_output`.
+> Use Alchemist on `./my_research_folder`, output to `./dataset_output`.
 
 Claude will:
 1. Inventory and extract content from every file (ignoring OS junk/duplicates).
@@ -51,7 +51,7 @@ growth trial — lab notes, a reanalysis CSV, a summary DOCX, a PDF field-notes 
 master list, an exact-duplicate file, an irrelevant file, and an OS metadata file. Several
 sources report conflicting measurements for the same samples on purpose.
 
-`examples/output/` contains the full result of running the skill's workflow against that input:
+`examples/output/` contains the full result of running Alchemist's workflow against that input:
 `proposed_schema.md`, `dataset.csv`, `dataset.json`, `extraction_report.md`, and a
 dataset-specific `README.md`. Use it as a reference for expected output shape, tone, and how
 conflicts/missing data/outliers should be represented — not as a template to copy schema from,
@@ -60,7 +60,7 @@ since every real folder needs its own schema inferred from its own content.
 ## Directory layout
 
 ```
-research-folder-to-dataset/
+alchemist/
   SKILL.md                       # full instructions Claude follows
   scripts/
     extract_content.py           # stdlib-only file inventory + text/table extraction

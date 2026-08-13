@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Deterministic file inventory + text/content extraction for research-folder-to-dataset.
+Deterministic file inventory + text/content extraction for the Alchemist skill.
 
 Design goals:
 - Zero required third-party dependencies (uses only the Python standard library).

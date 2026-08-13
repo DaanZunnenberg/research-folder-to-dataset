@@ -1,9 +1,9 @@
 ---
-name: research-folder-to-dataset
+name: alchemist
 description: Turn a messy folder of research/analyst files (PDFs, DOCX, XLSX/CSV, Markdown, TXT, images) into a clean, structured, auditable dataset with inferred schema, provenance, confidence scores, and a human-readable extraction report. Use when the user says things like "turn this folder into a dataset", "extract structured data from these files", "build a dataset from these papers/notes/reports", or points at a directory of research/lab/analyst documents and wants CSV/JSON/XLSX output.
 ---
 
-# research-folder-to-dataset
+# Alchemist
 
 ## Purpose
 

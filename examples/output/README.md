@@ -1,7 +1,7 @@
 # Dataset: Batch A/B Salinity Growth Trial (example output)
 
-This is the example output of the `research-folder-to-dataset` skill run against
-`examples/input/`, a synthetic folder of messy plant-biology research files.
+This is the example output of the `Alchemist` skill run against `examples/input/`, a synthetic
+folder of messy plant-biology research files.
 
 ## What this dataset represents
 
