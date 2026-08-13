@@ -61,6 +61,12 @@ directly), or truly free-form creative writing with no repeated structure to ext
 Work through these steps in order. Do not skip the schema-proposal checkpoint — extracting
 straight to a dataset without confirming the shape wastes work when the inferred schema is wrong.
 
+All `scripts/*.py` paths below are relative to **this skill's own directory** (the folder
+containing this `SKILL.md`), not the current working directory or `input_dir`. Resolve the
+skill's directory first and invoke scripts with a path relative to it, e.g.
+`python3 "$SKILL_DIR/scripts/extract_content.py" <input_dir> <scratch>/inventory.json` — do not
+assume `scripts/` is reachable from wherever the shell happens to be `cd`'d.
+
 ### Step 1 — Inventory and extract raw content (deterministic)
 
 Run the bundled script to walk the folder recursively, classify every file, skip obvious junk,
@@ -115,7 +121,6 @@ Schema inference rules:
   cm" vs "height in mm" vs "height category: short/medium/tall"), propose ONE normalized field
   plus a `*_raw` field to preserve the original — do not propose three separate columns.
   See "Normalization rules" below.
-  the `*_raw` field.
 - Do not propose fields for information that appears in zero or one document — that's not a
   schema, that's a one-off fact; mention it in the report instead.
 - Cap the proposed schema at a reasonable size (typically 6-20 fields). If the material supports
@@ -164,6 +169,13 @@ structured cell, not a bare value:
 
 Never fabricate: citations, page numbers, measurements, dates, sample IDs, or any other
 metadata. If you cannot point to where a value came from, it is `missing`, not a guess.
+
+A cell may optionally include `notes_inline`: a short free-text explanation of a non-obvious
+decision on that specific field (e.g. why a unit conversion factor was chosen, why one candidate
+was picked over another despite a conflict, why an inference was made). Use it when the `quote`
+alone wouldn't make the reasoning clear to someone auditing the dataset later — don't add it to
+every field, only where it earns its place. It's ignored by `build_outputs.py`'s validation but
+carried through into `dataset.json` for auditability.
 
 ### Step 5 — Normalize
 

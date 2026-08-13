@@ -56,7 +56,13 @@ def try_iso_date(raw):
         if b > 12 and a <= 12:
             return {"iso": f"{y:04d}-{a:02d}-{b:02d}", "ambiguous": False, "candidates": [],
                     "note": "day > 12 disambiguates as MM/DD/YYYY"}
-        return {"iso": None, "ambiguous": True, "candidates": list(dict.fromkeys(candidates)),
+        deduped = list(dict.fromkeys(candidates))
+        if len(deduped) == 1:
+            # e.g. 05/05/2023: MM/DD and DD/MM interpretations coincide, so it isn't
+            # actually ambiguous even though both branches above fired.
+            return {"iso": deduped[0], "ambiguous": False, "candidates": [],
+                    "note": "day == month, so MM/DD and DD/MM interpretations agree"}
+        return {"iso": None, "ambiguous": True, "candidates": deduped,
                 "note": "numeric slash date is locale-ambiguous; do not guess, ask/flag"}
 
     m = re.match(r'^(\d{4})[/\-](\d{1,2})[/\-](\d{1,2})$', s)

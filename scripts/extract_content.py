@@ -184,23 +184,46 @@ def extract_xlsx(path):
                     texts = si.findall('.//a:t', ns)
                     shared.append(''.join((t.text or '') for t in texts))
 
-            # map sheet id -> friendly name via workbook.xml
-            sheet_names = {}
+            # Map sheet name -> worksheet XML part via the workbook's relationship IDs
+            # (r:id), NOT by positional order -- <sheet> order in workbook.xml does not
+            # reliably match sheetN.xml numbering, especially for reordered/renamed sheets.
+            r_ns = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
+            rel_targets = {}  # rId -> target path relative to xl/
+            if 'xl/_rels/workbook.xml.rels' in names:
+                rel_root = ET.fromstring(z.read('xl/_rels/workbook.xml.rels'))
+                for rel in rel_root:
+                    rel_targets[rel.get('Id')] = rel.get('Target')
+
+            ordered_sheets = []  # [(name, worksheet_path)] in workbook-declared order
             if 'xl/workbook.xml' in names:
                 wb_root = ET.fromstring(z.read('xl/workbook.xml'))
                 ns_wb = {'a': 'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
                 for i, sheet in enumerate(wb_root.findall('.//a:sheets/a:sheet', ns_wb), start=1):
-                    sheet_names[i] = sheet.get('name', f'Sheet{i}')
+                    name = sheet.get('name', f'Sheet{i}')
+                    rid = sheet.get(f'{{{r_ns}}}id')
+                    target = rel_targets.get(rid)
+                    if target:
+                        path = target if target.startswith('xl/') else f'xl/{target.lstrip("/")}'
+                    else:
+                        # Malformed/missing relationship -- fall back to positional guess.
+                        path = f'xl/worksheets/sheet{i}.xml'
+                    if path in names:
+                        ordered_sheets.append((name, path))
 
-            sheet_files = sorted(
-                [n for n in names if re.match(r'xl/worksheets/sheet\d+\.xml$', n)],
-                key=lambda n: int(re.search(r'\d+', n).group())
-            )
+            if not ordered_sheets:
+                # No workbook.xml / rels found at all -- fall back to filename order with
+                # generic names rather than failing outright.
+                sheet_files = sorted(
+                    [n for n in names if re.match(r'xl/worksheets/sheet\d+\.xml$', n)],
+                    key=lambda n: int(re.search(r'\d+', n).group())
+                )
+                ordered_sheets = [(f'Sheet{i}', sf) for i, sf in enumerate(sheet_files, start=1)]
+
             ns = {'a': 'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
             sections = []
             all_text_parts = []
             sheets_data = {}
-            for idx, sf in enumerate(sheet_files, start=1):
+            for sheet_name, sf in ordered_sheets:
                 root = ET.fromstring(z.read(sf))
                 grid = {}
                 max_row, max_col = 0, 0
@@ -226,7 +249,6 @@ def extract_xlsx(path):
                 for r in range(1, max_row + 1):
                     row_vals = [grid.get((r, c), '') for c in range(0, max_col + 1)]
                     rows_out.append(row_vals)
-                sheet_name = sheet_names.get(idx, f'Sheet{idx}')
                 sheets_data[sheet_name] = rows_out
                 preview = '\n'.join(','.join(str(v) for v in row) for row in rows_out[:50])
                 sections.append({"label": f"sheet: {sheet_name}", "text": preview})
